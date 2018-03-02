@@ -1,0 +1,204 @@
+{% extends "admin/admin.html" %}
+
+{% block content %}
+<section class="content-header">
+    <h1>xxxxxx系统</h1>
+    <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 电影管理</a></li>
+        <li class="active">添加电影</li>
+    </ol>
+</section>
+<section class="content" id="showcontent">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">添加电影</h3>
+                </div>
+                <form role="form" method="post" enctype="multipart/form-data">
+                    <div class="box-body">
+                        {% for msg in get_flashed_messages(category_filter=["ok"]) %}
+                        <div class="alert alert-success alert-dismissible">
+                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                            <h4><i class="icon fa fa-check"></i>操作成功！</h4>
+                            {{ msg }}
+                        </div>
+                        {% endfor %}
+                        <div class="form-group">
+                            <label for="input_part">{{form.part.label}}</label>
+                            {{form.part}}
+                            {% for err in form.part.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="input_company">{{form.company_code.label}}</label>
+                            {{form.company_code}}
+                            {% for err in form.company_code.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="input_company">{{form.company.label}}</label>
+                            {{form.company}}
+                            {% for err in form.company.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="input_unit">{{form.unit.label}}</label>
+                            {{form.unit}}
+                            {% for err in form.unit.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="input_position_code">{{form.position_code.label}}</label>
+                            {{form.position_code}}
+                            {% for err in form.position_code.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="input_position">{{form.position.label}}</label>
+                            {{form.position}}
+                            {% for err in form.position.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="input_emp_id">{{form.emp_id.label}}</label>
+                            {{form.emp_id}}
+                            {% for err in form.emp_id.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="input_emp_name">{{form.emp_name.label}}</label>
+                            {{form.emp_name}}
+                            {% for err in form.emp_name.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="input_gender">{{form.gender.label}}</label>
+                            {{form.gender}}
+                            {% for err in form.gender.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="input_direct_leader">{{form.direct_leader.label}}</label>
+                            {{form.direct_leader}}
+                            {% for err in form.direct_leader.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="input_indirect_leader">{{form.indirect_leader.label}}</label>
+                            {{form.indirect_leader}}
+                            {% for err in form.indirect_leader.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="input_kpi_order">{{form.kpi_order.label}}</label>
+                            {{form.kpi_order}}
+                            {% for err in form.kpi_order.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        <div class="form-group">
+                            <label for="input_kpi_name">{{form.kpi_name.label}}</label>
+                            {{form.kpi_name}}
+                            {% for err in form.kpi_name.errors %}
+                            <div class="col-md-12">
+                                <font style="color:red;">{{ err }}</font>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        {{form.csrf_token}}
+                        {{form.submit}}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block js %}
+<!--播放页面-->
+<script src="{{url_for('static',filename='jwplayer/jwplayer.js')}}"></script>
+<script type="text/javascript">
+    jwplayer.key = "P9VTqT/X6TSP4gi/hy1wy23BivBhjdzVjMeOaQ==";
+
+</script>
+<script type="text/javascript">
+    jwplayer("moviecontainer").setup({
+        flashplayer: "{{url_for('static',filename='jwplayer/jwplayer.flash.swf')}}",
+        playlist: [{
+            file: "{{url_for('static',filename='video/htpy.mp4')}}",
+            title: "环太平洋"
+        }],
+        modes: [{
+            type: "html5"
+        }, {
+            type: "flash",
+            src: "{{url_for('static',filename='jwplayer/jwplayer.flash.swf')}}"
+        }, {
+            type: "download"
+        }],
+        skin: {
+            name: "vapor"
+        },
+        "playlist.position": "left",
+        "playlist.size": 200,
+        height: 250,
+        width: 387,
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $('#input_release_time').datepicker({
+            autoclose: true,
+            format: 'yyyy-mm-dd',
+            language: 'zh-CN',
+        });
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $("#g-12").addClass("active");
+        $("#g-12-1").addClass("active");
+    })
+</script>
+{% endblock %}

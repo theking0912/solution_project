@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!-- 启用360浏览器的极速模式(webkit) -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+    <meta name="HandheldFriendly" content="true">
+    <!-- 微软的老式浏览器 -->
+    <meta name="MobileOptimized" content="320">
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <meta name="apple-mobile-web-app-capable" content="yes" /> <!-- 是否启用 WebApp 全屏模式 -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+    <title>录入箱数</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+
+    <!--加载样式-->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='calcu/css/iconfont.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='calcu/css/app.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='calcu/css/columnDrag.css')}}" charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='calcu/css/LCalendar.css')}}" />
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='calcu/css/jquery.spinner.css')}}" />
+
+    <!--加载脚本-->
+    <script type="text/javascript" src="{{url_for('static',filename='calcu/js/jquery.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='calcu/js/app.js')}}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='calcu/js/iconfont.js')}}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='calcu/js/jquery.spinner.js')}}"></script>
+</head>
+<body>
+    <div class="kePublic">
+        <!--效果html开始-->
+        <div class="table-screen">
+            <a id="moren" class="Selected" onclick="sortTable('tableSort',0)"><span>默认</span></a>
+            <a id="site" class="Selected kong" onclick="sortTable('tableSort',1)"><span>站点</span></a>
+            <a id="number" class="Selected kong" onclick="sortTable('tableSort',3)"><span>数量</span></a>
+            <div class="date">
+                <input type="text" name="start_date" id="start_date" placeholder="订单日期" readonly="readonly" />
+            </div>
+        </div>
+        <div id="chenkbox">
+            <table id="tableSort">
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+                {% for v in things_data.items %}
+                    <tr>
+                        <td>{{v.things_id}}</td>
+                        <td>{{v.station_name}}</td>
+                        <td><input type="number" class="spinnerExample" /></td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <script src="js/columnDrag.js"></script>
+        <!--效果html结束-->
+    </div>
+
+    <div class="but-bg">
+        <button id="btn-primar">开始计算</button>
+        <!--<button class="nobut">新建站点</button>-->
+    </div>
+
+    <script type="text/javascript" src="calcu/js/LCalendar.js" charset="utf-8"></script>
+    <script type="text/javascript">
+        var calendar = new LCalendar();
+        calendar.init({
+            'trigger': '#start_date', //标签id
+            'type': 'date', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择,
+            'minDate': (new Date().getFullYear()-3) + '-' + 1 + '-' + 1, //最小日期
+            'maxDate': (new Date().getFullYear()+3) + '-' + 12 + '-' + 31 //最大日期
+        });
+        var calendar = new LCalendar();
+        calendar.init({
+            'trigger': '#end_date', //标签id
+            'type': 'date', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择,
+            'minDate': (new Date().getFullYear()-3) + '-' + 1 + '-' + 1, //最小日期
+            'maxDate': (new Date().getFullYear()+3) + '-' + 12 + '-' + 31 //最大日期
+        });
+        //		$(function() {
+        //			$('#start_date').date();
+        //			$('#end_date').date();
+        //		});
+    </script>
+
+    <script type="text/javascript">
+        $('.spinnerExample').spinner({});
+    </script>
+
+    <script>
+        function qingling(Obj){
+            var ullis = Obj.parentNode.previousElementSibling.firstChild.firstChild.nextSibling.value;
+//            alert(ullis);
+            Obj.parentNode.previousElementSibling.firstChild.firstChild.nextSibling.value = "";
+        }
+    </script>
+
+    <script type="text/javascript">
+        function getlist() {
+            var start_date = $("#start_date").val();
+            var list = new Array();
+            var trs = $("#tableSort").find("tr");
+            for (var i = 0; i < trs.length; i++) {
+                var td = $(trs[i]).find("td");
+                list[i] = [things_id = td[0].innerText, station_name = td[1].innerText, box_num = td[2].innerText, order_date = start_date];
+            }
+            return list;
+        }
+
+        $("#btn-primar").click()
+        {
+            var valu = getlist();
+            $.post("{{url_for('admin.trans_add')}}", { "list[]": valu });
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <!-- 启用360浏览器的极速模式(webkit) -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+    <meta name="HandheldFriendly" content="true">
+    <!-- 微软的老式浏览器 -->
+    <meta name="MobileOptimized" content="320">
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <meta name="apple-mobile-web-app-capable" content="yes"/> <!-- 是否启用 WebApp 全屏模式 -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
+    <title>计算结果</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <!--加载样式-->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='calcu/css/iconfont.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='calcu/css/app.css')}}">
+
+    <!--加载脚本-->
+    <script type="text/javascript" src="{{url_for('static',filename='calcu/js/iconfont.js')}}" charset="UTF-8"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='calcu/js/jquery.min.js')}}"></script>
+    <script type="text/javascript" src="{{url_for('static',filename='calcu/js/app.js')}}" charset="UTF-8"></script>
+    <script>
+        $(function () {
+            var loading = "<div class='loading'><div class='pic'></div></div>";
+
+            if ($("body").hasClass("loading")) {
+                $(".loading").show();
+            }
+            else {
+                $("body").append(loading);
+            }
+        })
+
+        document.onreadystatechange = function () {
+            //载入完成
+            if (document.readyState == "complete") {
+                $(".loading").fadeOut();
+            }
+        };
+    </script>
+</head>
+<body>
+<div class="kePublic">
+    <!--效果html开始-->
+    <div class="table-result">
+        <span class="r-left">线路匹配结果：<i>{{ list_count }}</i> 条</span>
+        <span class="r-right">{{ page_data.items[0].order_date }}</span>
+    </div>
+    <div class="r-list">
+        <ul id="mycarousel">
+            {% for v in page_data.items %}
+            <li>
+                <div class="list-top">
+                    <span class="rleft">线路{{v.line_num}}</span>
+                    <span>{{v.lines}}</span>
+                    <span class="r-right">总装载：<b>{{v.box_sum}}</b></span>
+                </div>
+                <div class="list-bottom">
+                    <div class="list-left" style="width:35%">
+                        {% for a in v.who_first.split("、") %}
+                        <p>{{a}}</p>
+                        {% endfor %}
+                    </div>
+                    <div class="list-right" style="width:61%">
+                        <form>
+                            <div class="siji">司机: <input type="text" maxlength="4" placeholder="输入司机"/></div>
+                            <div class="beizhu">备注: <input type="text" maxlength="14" placeholder="输入备注信息"/></div>
+                        </form>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<div class="but-bg">
+    <!--<button id="btn_ok">确定</button>-->
+    <button id="btn-primar" onclick="javascript: window.location.href = '/admin/trans/add/'">重新计算</button>
+</div>
+
+<script>
+    var temp = document.getElementById("mycarousel");
+    var lis = temp.getElementsByTagName("li");
+    for (var i = 0; i < lis.length; i++) {
+        var y = lis[i].querySelector("span").innerText.substr(0, 2);
+        var e = lis[i].querySelector("span").innerText.substr(2, 1);
+        lis[i].querySelector("span").innerHTML = y + " " + e;
+    }
+</script>
+</body>
+</html>

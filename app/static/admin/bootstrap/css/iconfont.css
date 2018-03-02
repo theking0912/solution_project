@@ -1,0 +1,26 @@
+
+@font-face {
+  font-family: 'iconfont';
+  src: url('../fonts/iconfont.eot');
+  src: url('../fonts/iconfont.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/iconfont.woff') format('woff'),
+  url('../fonts/iconfont.ttf') format('truetype'),
+  url('../fonts/iconfont.svg#iconfont') format('svg');
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-zhi::after{content: " \e865  "; color: #666;font-size: 16px;}
+.icon-xianlu::before{content: "\e630"; margin-right: 2px;font-size: 14px;}
+.icon-riqi::before{content: "\e63c"; }
+.table-screen a span::after{content: "\e600"; }
+.icon-zhandian::before{content: "\e62e"; color: #ff0089;font-size: 16px;margin-right: 2px;}
+.icon-qingling::before{content: "\e62f"; }
+.fontsize{font-size: 25px;color: #dedede;}
+.list-left p span::before{content: " ";}
+.list-left p::before{content: "\e601";}
