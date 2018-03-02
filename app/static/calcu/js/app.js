@@ -42,10 +42,6 @@ $(document).ready(function(){
         $(this).css("background-color","#ffffff");
     });
 
-
-    $("input").focus(function(){
-        $(this).val("");
-    })
 });
 
     //function oninp(a) {
@@ -58,21 +54,21 @@ $(document).ready(function(){
     //}
 
     function jian(a){
-        var nextnode = a.nextElementSibling;//»ñÈ¡ÏÂÒ»¸ö½Úµã
+        var nextnode = a.nextElementSibling;//ï¿½ï¿½È¡ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Úµï¿½
               //alert(nextnode.className);
     //    alert(nextnode.className);
-        var a = parseInt(nextnode.value);//parseInt()º¯Êý¿É½âÎöÒ»¸ö×Ö·û´®£¬²¢·µ»ØÒ»¸öÕûÊý
-        a = a-0.5;//»òÕß   a -= 1;
-    //            a = a > 0 ? a : 0;//×èÖ¹³ÉÎª¸ºÊý£»
+        var a = parseInt(nextnode.value);//parseInt()ï¿½ï¿½ï¿½ï¿½ï¿½É½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        a = a-0.5;//ï¿½ï¿½ï¿½ï¿½   a -= 1;
+    //            a = a > 0 ? a : 0;//ï¿½ï¿½Ö¹ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         if(a<0.5){
             a = 0
-        };//×èÖ¹³ÉÎª¸ºÊý£»
+        };//ï¿½ï¿½Ö¹ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         nextnode.value = a;
     };
     function jia(a){
         var previousnode = a.previousElementSibling;
-        var a = parseInt(previousnode.value)//parseInt()º¯Êý¿É½âÎöÒ»¸ö×Ö·û´®£¬²¢·µ»ØÒ»¸öÕûÊý
-        a = a+1;//»òÕß   a -= 1;
+        var a = parseInt(previousnode.value)//parseInt()ï¿½ï¿½ï¿½ï¿½ï¿½É½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+        a = a+1;//ï¿½ï¿½ï¿½ï¿½   a -= 1;
         previousnode.value = a;
     };
 

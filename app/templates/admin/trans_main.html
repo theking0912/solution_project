@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <!-- 启用360浏览器的极速模式(webkit) -->
+    <meta name="renderer" content="webkit">
+    <!-- 避免IE使用兼容模式 -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- 针对手持设备优化，主要是针对一些老的不识别viewport的浏览器，比如黑莓 -->
+    <meta name="HandheldFriendly" content="true">
+    <!-- 微软的老式浏览器 -->
+    <meta name="MobileOptimized" content="320">
+    <!-- uc强制竖屏 -->
+    <meta name="screen-orientation" content="portrait">
+    <!-- QQ强制竖屏 -->
+    <meta name="x5-orientation" content="portrait">
+    <!-- UC强制全屏 -->
+    <meta name="full-screen" content="yes">
+    <!-- QQ强制全屏 -->
+    <meta name="x5-fullscreen" content="true">
+    <!-- UC应用模式 -->
+    <meta name="browsermode" content="application">
+    <!-- QQ应用模式 -->
+    <meta name="x5-page-mode" content="app">
+    <meta name="apple-mobile-web-app-capable" content="yes" /> <!-- 是否启用 WebApp 全屏模式 -->
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+    <title>每日优鲜-线路编排</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <!--加载样式-->
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='calcu/css/iconfont.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='calcu/css/app.css')}}">
+    <script>
+        $(function () {
+            var loading = "<div class='loading'><div class='pic'></div></div>";
+
+            if ($("body").hasClass("loading")) {
+                $(".loading").show();
+            }
+            else {
+                $("body").append(loading);
+            }
+        })
+
+        document.onreadystatechange = function () {
+            //载入完成
+            if (document.readyState == "complete") {
+                $(".loading").fadeOut();
+            }
+        };
+    </script>
+</head>
+<body>
+    <div style="margin-top:100px; text-align:center;">
+        <h1 style="font-size:30px;">每日优鲜-路线编排</h1>
+        <p style="color: #999;margin-top:10px;">
+            计算日期：今日6:00至明日5:59:59，视为当天
+        </p>
+    </div>
+    <div class="but-bg" style="position: absolute;top:30%">
+        <button onclick="javascript: window.location.href = '/admin/trans/add/'">路线编排</button>        
+        <button class="but-unim" onclick="javascript: window.location.href = '/admin/trans/list/' + getFormatDate()" style="margin-top:15px;">路线查看</button>
+    </div>
+
+    <script>
+        function getFormatDate() {
+            var date = new Date();
+            var seperator1 = "-";
+            var year = date.getFullYear();
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentdate = year + seperator1 + month + seperator1 + strDate;
+            return currentdate;
+        }
+    </script>
+</body>
+</html>

@@ -29,7 +29,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes"/> <!-- 是否启用 WebApp 全屏模式 -->
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
-    <title>录入箱数</title>
+    <title>每日优鲜-路线编排</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
 
@@ -54,8 +54,9 @@
         <a id="moren" class="Selected" onclick="sortTable('tableSort',0)"><span>默认</span></a>
         <a id="site" class="Selected kong" onclick="sortTable('tableSort',1)"><span>站点</span></a>
         <a id="number" class="Selected kong" onclick="sortTable('tableSort',3)"><span>数量</span></a>
-        <div class="date">
-            <input type="text" name="start_date" id="start_date" placeholder="订单日期" readonly="readonly"/>
+
+        <div class="table-result">
+            <span id="start_date" class="r-right">{{ order_date }}</span>
         </div>
     </div>
     <div id="chenkbox">
@@ -108,7 +109,6 @@
 <script>
     function qingling(Obj) {
         var ullis = Obj.parentNode.previousElementSibling.firstChild.firstChild.nextSibling.value;
-//            alert(ullis);
         Obj.parentNode.previousElementSibling.firstChild.firstChild.nextSibling.value = "";
     }
 </script>
@@ -121,26 +121,23 @@
         for (var i = 0; i < trs.length; i++) {
             var td = $(trs[i]).find("td");
             var tdinput = $(trs[i]).find("input");
-            list[i] = [things_id = td[0].innerText, station_name = td[1].innerText, box_num = $(tdinput).val(), order_date = start_date];
+            var box_num = $(tdinput).val();
+            if (box_num == "" || box_num == null || box_num == undefined)
+                box_num = "0";
+
+            list[i] = [things_id = td[0].innerText, station_name = td[1].innerText, box_num = box_num, order_date = start_date];
         }
         return list;
     }
 
     $("#btn-primar").click(function () {
-        var start_date = $("#start_date").val();
-        if (start_date == "") {
-            alert("请先选择订单日期！");
-            return;
-        }
-
+        var order_date = document.getElementById("start_date").innerHTML;
         var valu = getlist();
 
         $("#btn-primar").text("正在计算...");
-        $.post("{{url_for('admin.trans_add')}}", {"list[]": valu, "start_date": start_date}, function (result) {
-            console.debug(result);
-
+        $.post("{{url_for('admin.calc_result', order_date = order_date)}}", {"list[]": valu}, function (result) {
             window.setTimeout(function () {
-                window.location.href = "/admin/trans/list/?order_date=" + start_date;
+                window.location.href = "/admin/trans/list/" + order_date;
             }, 2000);
         });
     });

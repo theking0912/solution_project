@@ -1039,7 +1039,7 @@ def generation(pa_order_date):
     if a == 2:
         msg = 'step2 生成可能性成功'
     print('2、excel生成开始')
-    export_Excel(pa_order_date)
+    # export_Excel(pa_order_date)
     a = a + 1
     if a == 3:
         msg = 'step3 生成可能性Excel成功'

@@ -35,7 +35,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
     display: block
 }
 .spinner-sprite, .spinner .decrease, .spinner .decrease[disabled], .spinner .increase, .spinner .value, .spinner .value.passive {
-    background: url('../images/spinner.png') no-repeat
+    /*background: url('../images/spinner.png') no-repeat*/
 }
 .spinner {
     height: 42px;

@@ -13,7 +13,7 @@ import xlrd
 from . import admin
 from flask import render_template, redirect, url_for, flash, session, request, abort
 from app.admin.forms import LoginForm, PwdForm, AuthForm, RoleForm, AdminForm, Kpi_detailForm, Tbl_Table_A_Result_Form, \
-    Tbl_Trans_Things_Num_Temp_Form, Tbl_Trans_Things_Num_Head_Form, People_Form
+    Tbl_Trans_Things_Num_Temp_Form, Tbl_Trans_Things_Num_Template_Form, Tbl_Trans_Things_Num_Head_Form, People_Form
 from app.models import Admin, User, Comment, Oplog, Userlog, Adminlog, Auth, Role, Kpi_detail, tbl_table_a_result, \
     tbl_trans_things_num_temp, tbl_trans_things_num_template, tbl_trans_things_num_head, People
 from xlrd import open_workbook
@@ -80,14 +80,16 @@ def change_filename(filename):
 
 
 # index页
-@admin.route("/")
 @admin_login_req
 @admin_auth
+@admin.route("/")
 def index():
     return render_template("admin/index.html")
 
 
 # 登录
+@admin_login_req
+@admin_auth
 @admin.route("/login/", methods=["GET", "POST"])
 def login():
     form = LoginForm()
@@ -110,8 +112,9 @@ def login():
 
 
 # 退出
-@admin.route("/logout/")
 @admin_login_req
+@admin_auth
+@admin.route("/logout/")
 def logout():
     session.pop("admin", None)
     session.pop("admin_id", None)
@@ -119,8 +122,9 @@ def logout():
 
 
 # 修改密码
-@admin.route("/pwd/", methods=["GET", "POST"])
 @admin_login_req
+@admin_auth
+@admin.route("/pwd/", methods=["GET", "POST"])
 def pwd():
     form = PwdForm()
     if form.validate_on_submit():
@@ -135,9 +139,9 @@ def pwd():
 
 
 # 会员列表
-@admin.route("/user/list/<int:page>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/user/list/<int:page>/", methods=["GET"])
 def user_list(page=None):
     if page is None:
         page = 1
@@ -148,18 +152,18 @@ def user_list(page=None):
 
 
 # 会员视图
-@admin.route("/user/view/<int:id>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/user/view/<int:id>/", methods=["GET"])
 def user_view(id=None):
     user = User.query.get_or_404(int(id))
     return render_template("admin/user_view.html", user=user)
 
 
 # 删除会员
-@admin.route("/user/del/<int:id>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/user/del/<int:id>/", methods=["GET"])
 def user_del(id=None):
     user = User.query.get_or_404(int(id))
     db.session.delete(user)
@@ -169,9 +173,9 @@ def user_del(id=None):
 
 
 # 评论列表
-@admin.route("/comment/list/<int:page>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/comment/list/<int:page>/", methods=["GET"])
 def comment_list(page=None):
     if page is None:
         page = 1
@@ -186,9 +190,9 @@ def comment_list(page=None):
 
 
 # 删除评论
-@admin.route("/comment/del/<int:id>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/comment/del/<int:id>/", methods=["GET"])
 def comment_del(id=None):
     comment = Comment.query.get_or_404(int(id))
     db.session.delete(comment)
@@ -199,9 +203,9 @@ def comment_del(id=None):
 
 # ----------------------------------------------------------------------------------------------------------------------
 # 操作日志
-@admin.route("/oplog/list/<int:page>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/oplog/list/<int:page>/", methods=["GET"])
 def oplog_list(page=None):
     if page is None:
         page = 1
@@ -216,9 +220,9 @@ def oplog_list(page=None):
 
 
 # 管理员登录日志
-@admin.route("/adminloginlog/list/<int:page>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/adminloginlog/list/<int:page>/", methods=["GET"])
 def adminloginlog_list(page=None):
     if page is None:
         page = 1
@@ -233,9 +237,9 @@ def adminloginlog_list(page=None):
 
 
 # 用户登录日志
-@admin.route("/userloginlog/list/<int:page>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/userloginlog/list/<int:page>/", methods=["GET"])
 def userloginlog_list(page=None):
     if page is None:
         page = 1
@@ -250,9 +254,9 @@ def userloginlog_list(page=None):
 
 
 # 添加权限
-@admin.route("/auth/add/", methods=["GET", "POST"])
 @admin_login_req
 @admin_auth
+@admin.route("/auth/add/", methods=["GET", "POST"])
 def auth_add():
     form = AuthForm()
     if form.validate_on_submit():
@@ -273,9 +277,9 @@ def auth_add():
 
 
 # 权限列表
-@admin.route("/auth/list/<int:page>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/auth/list/<int:page>/", methods=["GET"])
 def auth_list(page=None):
     if page is None:
         page = 1
@@ -286,9 +290,9 @@ def auth_list(page=None):
 
 
 # 权限删除
-@admin.route("/auth/del/<int:id>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/auth/del/<int:id>/", methods=["GET"])
 def auth_del(id=None):
     auth = Auth.query.filter_by(id=id).first_or_404()
     db.session.delete(auth)
@@ -298,9 +302,9 @@ def auth_del(id=None):
 
 
 # 编辑权限
-@admin.route("/auth/edit/<int:id>/", methods=["GET", "POST"])
 @admin_login_req
 @admin_auth
+@admin.route("/auth/edit/<int:id>/", methods=["GET", "POST"])
 def auth_edit(id=None):
     form = AuthForm()
     auth = Auth.query.get_or_404(int(id))
@@ -315,9 +319,9 @@ def auth_edit(id=None):
 
 
 # 添加角色
-@admin.route("/role/add/", methods=["GET", "POST"])
 @admin_login_req
 @admin_auth
+@admin.route("/role/add/", methods=["GET", "POST"])
 def role_add():
     form = RoleForm()
     if form.validate_on_submit():
@@ -337,9 +341,9 @@ def role_add():
 
 
 # 角色列表
-@admin.route("/role/list/<int:page>/", methods=["GET", "POST"])
 @admin_login_req
 @admin_auth
+@admin.route("/role/list/<int:page>/", methods=["GET", "POST"])
 def role_list(page=None):
     if page is None:
         page = 1
@@ -350,9 +354,9 @@ def role_list(page=None):
 
 
 # 角色删除
-@admin.route("/role/del/<int:id>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/role/del/<int:id>/", methods=["GET"])
 def role_del(id=None):
     role = Role.query.filter_by(id=id).first_or_404()
     db.session.delete(role)
@@ -362,9 +366,9 @@ def role_del(id=None):
 
 
 # 编辑角色
-@admin.route("/role/edit/<int:id>/", methods=["GET", "POST"])
-@admin_login_req
+# @admin_login_req
 @admin_auth
+@admin.route("/role/edit/<int:id>/", methods=["GET", "POST"])
 def role_edit(id=None):
     form = RoleForm()
     role = Role.query.get_or_404(int(id))
@@ -382,9 +386,9 @@ def role_edit(id=None):
 
 
 # 添加管理员
-@admin.route("/admin/add/", methods=["GET", "POST"])
 @admin_login_req
 @admin_auth
+@admin.route("/admin/add/", methods=["GET", "POST"])
 def admin_add():
     form = AdminForm()
     if form.validate_on_submit():
@@ -407,9 +411,9 @@ def admin_add():
 
 
 # 管理员列表
-@admin.route("/admin/list/<int:page>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/admin/list/<int:page>/", methods=["GET"])
 def admin_list(page=None):
     if page is None:
         page = 1
@@ -424,9 +428,9 @@ def admin_list(page=None):
 
 
 # kpi列表
-@admin.route("/kpi/list/<int:page>/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/kpi/list/<int:page>/", methods=["GET"])
 def kpi_list(page=None):
     if page is None:
         page = 1
@@ -437,9 +441,9 @@ def kpi_list(page=None):
 
 
 # 编辑角色
-@admin.route("/kpi/edit/<int:id>/", methods=["GET", "POST"])
 @admin_login_req
 @admin_auth
+@admin.route("/kpi/edit/<int:id>/", methods=["GET", "POST"])
 def kpi_edit(id=None):
     form = Kpi_detailForm()
     kpi_detail = Kpi_detail.query.get_or_404(int(id))
@@ -454,9 +458,9 @@ def kpi_edit(id=None):
 
 
 # 添加kpi
-@admin.route("/kpi/add/", methods=["GET"])
 @admin_login_req
 @admin_auth
+@admin.route("/kpi/add/", methods=["GET"])
 def kpi_add():
     form = Kpi_detailForm()
     if form.validate_on_submit():
@@ -477,8 +481,6 @@ def kpi_add():
 
 # kpi列表
 @admin.route("/things/list/<int:page>/", methods=["GET"])
-@admin_login_req
-@admin_auth
 def things_list(page=None):
     if page is None:
         page = 1
@@ -520,75 +522,101 @@ def things_add(order_date):
 
 
 # kpi列表
-@admin.route("/trans/list/", methods=["GET"])
-@admin_login_req
-@admin_auth
-def trans_list():
-    pa_order_date = request.args.get('order_date', 1, type=str)[0:10]
-    order_date = datetime.datetime.strptime(pa_order_date, '%Y-%m-%d')
+@admin.route("/trans/list/<string:order_date>/", methods=["GET"])
+def trans_list(order_date):
+    order_date = datetime.datetime.strptime(order_date, '%Y-%m-%d')
     page_data = tbl_table_a_result.query.filter_by(
         order_date=order_date
     ).order_by(
-        tbl_table_a_result.order_date.asc()
+        tbl_table_a_result.line_num.asc()
     ).paginate(page=1, per_page=100)
     list_count = len(page_data.items)
     num_list = []
-    for x in range(1, list_count+1):
+    for x in range(1, list_count + 1):
         num_list.append(x)
-    return render_template("admin/trans_list.html", list_count=list_count, num_list=num_list, page_data=page_data)
+    return render_template("admin/trans_list.html", list_count=list_count, num_list=num_list, page_data=page_data,
+                           order_date=str(order_date)[0:10])
 
 
 # 添加每日要货量
 @admin.route("/trans/add/", methods=["GET", "POST"])
-@admin_login_req
-@admin_auth
 def trans_add():
-    form = Tbl_Trans_Things_Num_Temp_Form()
+    form = Tbl_Trans_Things_Num_Template_Form()
     things_data = tbl_trans_things_num_template.query.order_by(
         tbl_trans_things_num_template.things_id.asc()
     ).paginate(page=1, per_page=100)
-    # 删除数据
-    order_date = request.form.get("start_date")
-    if order_date is not None:
-        if order_date != '':
-            tbl_trans_things_num_temp.query.filter_by(
-                order_date=datetime.datetime.strptime(order_date, '%Y-%m-%d')).delete()
-            db.session.commit()
-        else:
-            flash("日期不可为空！")
-        # 添加订单头
-        things_add(order_date)
-        # 提交数据到数据库
-        tables = request.form.getlist("list[]")
-        if len(tables) > 0:
-            for v in tables:
-                str_par = v.split(',')
-                things = tbl_trans_things_num_temp(
-                    station_name=str_par[1],
-                    per_box_num=0,
-                    box_num=str_par[2],
-                    order_date=datetime.datetime.strptime(str_par[3], "%Y-%m-%d"),
-                    import_by='admin',
-                )
-                db.session.add(things)
-            db.session.commit()
-        # 生成排程逻辑
-        pa_order_date = order_date[0:4] + order_date[5:7] + order_date[8:10]
-        msg = generation(pa_order_date)
-        flash(msg)
-        page_data = tbl_trans_things_num_head.query.order_by(
-            tbl_trans_things_num_head.order_date.asc()
-        ).paginate(page=1, per_page=10)
-        return render_template("admin/things_list.html", page_data=page_data)
+    # 获取日期
+    now_tag = datetime.datetime.now().strftime('%Y%m%d%H%M%S')
+    now_tag_1 = str(int(now_tag[0:8]) - 1)
+    # 处理日期
+    if now_tag[8:14] > '060000':
+        order_date = now_tag[0:4] + '-' + now_tag[4:6] + '-' + now_tag[6:8]
     else:
-        flash("日期不可为空！")
-    return render_template("admin/trans_add.html/", things_data=things_data, form=form)
+        order_date = now_tag_1[0:4] + '-' + now_tag_1[4:6] + '-' + now_tag_1[6:8]
+
+    return render_template("admin/trans_add.html/", things_data=things_data, form=form, order_date=order_date)
+
+
+@admin.route("/calc/result/<string:order_date>/", methods=["GET", "POST"])
+def calc_result(order_date):
+    # 删除日期
+    tbl_trans_things_num_temp.query.filter_by(
+        order_date=datetime.datetime.strptime(order_date, '%Y-%m-%d')).delete()
+    db.session.commit()
+    # 添加订单头
+    things_add(order_date)
+    # 提交数据到数据库
+    tables = request.form.getlist("list[]")
+    if len(tables) > 0:
+        for v in tables:
+            str_par = v.split(',')
+            things = tbl_trans_things_num_temp(
+                station_name=str_par[1],
+                per_box_num=0,
+                box_num=str_par[2],
+                order_date=datetime.datetime.strptime(order_date, "%Y-%m-%d"),
+                import_by='admin',
+            )
+            db.session.add(things)
+        db.session.commit()
+    # 生成排程逻辑
+    pa_order_date = order_date[0:4] + order_date[5:7] + order_date[8:10]
+    generation(pa_order_date)
+    return redirect(url_for('admin.trans_list', order_date=order_date))
+
+
+@admin.route("trans/save/<string:order_date>/", methods=["GET", "POST"])
+def trans_save(order_date):
+    pa_order_date = order_date[0:4] + '-' + order_date[5:7] + '-' + order_date[8:10]
+    tables = request.form.getlist("list[]")
+    data_count = tbl_table_a_result.query.filter_by(
+        order_date=datetime.datetime.strptime(pa_order_date, '%Y-%m-%d')
+    ).count()
+    if data_count != 0:
+        for v in tables:
+            temp = v.split(',')
+            print(temp)
+            table_a = tbl_table_a_result.query.filter_by(
+                line_num=temp[0],
+                order_date=datetime.datetime.strptime(pa_order_date, '%Y-%m-%d'),
+            ).first()
+            table_a.drivers = temp[1]
+            table_a.remark = temp[2]
+        db.session.commit()
+        flash('保存成功!')
+        return redirect(url_for('admin.trans_list', order_date=pa_order_date))
+    else:
+        return ''
+
+
+# 主菜单
+@admin.route("/trans/main/", methods=["GET", "POST"])
+def trans_main():
+    return render_template("admin/trans_main.html")
 
 
 # 添加kpi
 @admin.route("/trans/submit/", methods=["GET", "POST"])
-@admin_login_req
-@admin_auth
 def trans_submit():
     pass
     # print(form.validate_on_submit())
@@ -596,7 +624,7 @@ def trans_submit():
     #     print("asdasdasdasdasd")
     #     data = form.data
     #     print(data["station_name"])
-    #     things_date = Kpi_detail.query.filter_by(name=data["order_date"]).count()
+    #     things_date = Kpi_detail.query.r(name=data["order_date"]).count()
     #     if things_date == 1:
     #         flash("已经存在当前日期的数据！", "err")
     #         return redirect(url_for('admin.trans_add'))
@@ -615,16 +643,12 @@ def trans_submit():
 
 # ----------------
 @admin.route("/demo/", methods=['GET'])
-@admin_login_req
-@admin_auth
 def demo():
     print("oooooooooo")
     return render_template("admin/import_device.html")
 
 
 @admin.route("/import/excels/", methods=['GET'])
-@admin_login_req
-@admin_auth
 def import_excels():
     form_data = []
     exceldir = "/Users/lishun/PycharmProjects/solution_project/app/static/video/people.xlsx"
@@ -683,8 +707,6 @@ def allowed_file(filename):
 
 
 @admin.route("/import/device/", methods=['GET', 'POST'])
-@admin_login_req
-@admin_auth
 def import_device():
     if request.method == 'POST':
         file = request.files['file']
