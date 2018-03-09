@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="638049e3-70a4-4d77-b4ce-27c8a03f20bc" name="Default" comment="">
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/templates/admin/trans_main.html" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/tools/importExcel_step3_x.py" />
@@ -16,6 +17,9 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/tools/generation_report_step4_rou.py" afterPath="$PROJECT_DIR$/app/tools/generation_report_step4_rou.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/tools/generation_report_step4_rou1.py" afterPath="$PROJECT_DIR$/app/tools/generation_report_step4_rou1.py" />
     </list>
+=======
+    <list default="true" id="638049e3-70a4-4d77-b4ce-27c8a03f20bc" name="Default" comment="" />
+>>>>>>> master
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -109,8 +113,13 @@
       <file leaf-file-name="trans_main.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/templates/admin/trans_main.html">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="1230">
               <caret line="82" column="13" lean-forward="false" selection-start-line="82" selection-start-column="13" selection-end-line="82" selection-end-column="13" />
+=======
+            <state relative-caret-position="406">
+              <caret line="1071" column="30" lean-forward="false" selection-start-line="1071" selection-start-column="30" selection-end-line="1071" selection-end-column="30" />
+>>>>>>> master
               <folding>
                 <element signature="n#style#0;n#p#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
               </folding>
@@ -1274,6 +1283,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/tools/generation_report_step4_rou.py">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="42">
           <caret line="1034" column="22" lean-forward="true" selection-start-line="1034" selection-start-column="22" selection-end-line="1034" selection-end-column="22" />
         </state>
@@ -1296,6 +1306,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="907" column="44" lean-forward="false" selection-start-line="907" selection-start-column="44" selection-end-line="907" selection-end-column="44" />
+=======
+        <state relative-caret-position="406">
+          <caret line="1071" column="30" lean-forward="false" selection-start-line="1071" selection-start-column="30" selection-end-line="1071" selection-end-column="30" />
+>>>>>>> master
           <folding>
             <marker date="1520503099435" expanded="true" signature="735:1232" ph="select a.sta... tbl_table_a" />
             <marker date="1520503099435" expanded="true" signature="1262:1518" ph="select a.sta... tbl_table_b" />
