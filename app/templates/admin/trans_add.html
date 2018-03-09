@@ -80,28 +80,6 @@
     <!--<button class="nobut">新建站点</button>-->
 </div>
 
-<script type="text/javascript" src="{{url_for('static',filename='calcu/js/LCalendar.js')}}" charset="utf-8"></script>
-<script type="text/javascript">
-    var calendar = new LCalendar();
-    calendar.init({
-        'trigger': '#start_date', //标签id
-        'type': 'date', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择,
-        'minDate': (new Date().getFullYear() - 3) + '-' + 1 + '-' + 1, //最小日期
-        'maxDate': (new Date().getFullYear() + 3) + '-' + 12 + '-' + 31 //最大日期
-    });
-    var calendar = new LCalendar();
-    calendar.init({
-        'trigger': '#end_date', //标签id
-        'type': 'date', //date 调出日期选择 datetime 调出日期时间选择 time 调出时间选择 ym 调出年月选择,
-        'minDate': (new Date().getFullYear() - 3) + '-' + 1 + '-' + 1, //最小日期
-        'maxDate': (new Date().getFullYear() + 3) + '-' + 12 + '-' + 31 //最大日期
-    });
-    //		$(function() {
-    //			$('#start_date').date();
-    //			$('#end_date').date();
-    //		});
-</script>
-
 <script type="text/javascript">
     $('.spinnerExample').spinner({});
 </script>
@@ -130,7 +108,12 @@
         return list;
     }
 
-    $("#btn-primar").click(function () {
+    $(function () {
+        $("input").focus(function(){
+            $(this).val("");
+        });
+
+        $("#btn-primar").click(function () {
         var order_date = document.getElementById("start_date").innerHTML;
         var valu = getlist();
 
@@ -138,9 +121,10 @@
         $.post("{{url_for('admin.calc_result', order_date = order_date)}}", {"list[]": valu}, function (result) {
             window.setTimeout(function () {
                 window.location.href = "/admin/trans/list/" + order_date;
-            }, 2000);
+            }, 900);
         });
     });
+    })
 </script>
 </body>
 </html>
